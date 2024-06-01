@@ -55,6 +55,12 @@ class Sega(app.App):
                     button_states['A'] = not self.config.ls_pin[4].value(read=True)
                     button_states['START'] = not self.config.pin[0].value()
 
+            # Detect state where all buttons are 'pressed' - likely means no controller:
+            print(button_states.values())
+            if all(button_states.values()):
+                await asyncio.sleep(5)
+                continue
+
             for button, value in button_states.items():
                 if value and not last_states.get(button):
                     await eventbus.emit_async(ButtonDownEvent(button=BUTTONS[button]))
