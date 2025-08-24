@@ -34,7 +34,7 @@ class Fixer(app.App):
         i2c = I2C(event.port)
 
         # Autodetect eeprom addr
-        addr = detect_eeprom_addr(i2c)
+        addr, addr_len = detect_eeprom_addr(i2c)
         if addr is None:
             print("Scan found no eeproms")
             return
